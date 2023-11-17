@@ -49,6 +49,16 @@ class DrawingPanel extends JPanel {
 }
 
 class MainFrame extends JFrame implements KeyListener {
+  MainFrame() {
+    super();
+    add(new DrawingPanel());
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLocationByPlatform(true);
+    pack();
+    setSize(600, 600);
+    addKeyListener(this);
+  }
+
   @Override
   public void keyPressed(KeyEvent e) {
     final var isWPressed = e.getKeyCode() == KeyEvent.VK_W;
@@ -71,12 +81,6 @@ public class TreeFractal {
   public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
       var frame = new MainFrame();
-      frame.add(new DrawingPanel());
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setLocationByPlatform(true);
-      frame.pack();
-      frame.setSize(600, 600);
-      frame.addKeyListener(frame);
       frame.setVisible(true);
     });
   }
