@@ -1,29 +1,34 @@
 package io.github.downerj;
 
-import java.awt.Color;
+import java.util.Iterator;
 
-public class IterateConditions {
+public class Tree implements Iterable<TreeBranch> {
   public double branchLengthRatioCCW;
   public double branchLengthRatioCW;
   public int maxDepth;
   public int depthToSwitchColors;
   public double deltaAngleCCW;
   public double deltaAngleCW;
-  public Color color1;
-  public Color color2;
+  public int color1;
+  public int color2;
 
-  public IterateConditions() {
+  public Tree() {
     branchLengthRatioCCW = .6;
     branchLengthRatioCW = branchLengthRatioCCW;
     maxDepth = 8;
     depthToSwitchColors = 5;
-    deltaAngleCCW = Math.PI / 3;
+    deltaAngleCCW = Math.PI / 3.;
     deltaAngleCW = deltaAngleCCW; 
-    color1 = Color.ORANGE;
-    color2 = Color.GREEN;
+    color1 = 0xffff7700;
+    color2 = 0xff00ff00;
   }
 
-  public Color getColorByDepth(int depth) {
+  public int getColorByDepth(int depth) {
     return depth < depthToSwitchColors ? color1 : color2;
+  }
+
+  @Override
+  public Iterator<TreeBranch> iterator() {
+    return null;
   }
 }

@@ -21,7 +21,7 @@ public class TreeBranch {
 
   public enum Direction { CCW, CW }
 
-  public TreeBranch growBranch(Direction direction, IterateConditions conditions) {
+  public TreeBranch growBranch(Direction direction, Tree conditions) {
     final var newStartX = endX;
     final var newStartY = endY;
     final var newLength = length * (direction == Direction.CCW ? conditions.branchLengthRatioCCW : conditions.branchLengthRatioCW);

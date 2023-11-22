@@ -7,20 +7,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import io.github.downerj.IterateConditions;
+import io.github.downerj.Tree;
 import io.github.downerj.TreeBranch;
 
 class DrawingPanel extends JPanel {
   private void drawTrees(Graphics g, LinkedList<TreeBranch> branches) {
-    final var conditions = new IterateConditions();
+    final var tree = new Tree();
     while (!branches.isEmpty()) {
       final var branch = branches.remove();
-      g.setColor(conditions.getColorByDepth(branch.getDepth()));
+      final var color = new Color(tree.getColorByDepth(branch.getDepth()));
+      g.setColor(color);
       g.drawLine((int)branch.getStartX(), (int)branch.getStartY(), (int)branch.getEndX(), (int)branch.getEndY());
 
-      if (branch.getDepth() < conditions.maxDepth) {
-        branches.push(branch.growBranch(TreeBranch.Direction.CCW, conditions));
-        branches.push(branch.growBranch(TreeBranch.Direction.CW, conditions));
+      if (branch.getDepth() < tree.maxDepth) {
+        branches.push(branch.growBranch(TreeBranch.Direction.CCW, tree));
+        branches.push(branch.growBranch(TreeBranch.Direction.CW, tree));
       }
     }
   }
