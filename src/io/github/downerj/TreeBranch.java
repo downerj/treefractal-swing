@@ -8,8 +8,9 @@ public class TreeBranch {
   private final double length;
   private final double angle;
   private final int depth;
+  private final int color;
 
-  public TreeBranch(double startX, double startY, double endX, double endY, double length, double angle, int depth) {
+  public TreeBranch(double startX, double startY, double endX, double endY, double length, double angle, int depth, int color) {
     this.startX = startX;
     this.startY = startY;
     this.endX = endX;
@@ -17,19 +18,7 @@ public class TreeBranch {
     this.length = length;
     this.angle = angle;
     this.depth = depth;
-  }
-
-  public enum Direction { CCW, CW }
-
-  public TreeBranch growBranch(Direction direction, Tree conditions) {
-    final var newStartX = endX;
-    final var newStartY = endY;
-    final var newLength = length * (direction == Direction.CCW ? conditions.branchLengthRatioCCW : conditions.branchLengthRatioCW);
-    final var newAngle = angle + (direction == Direction.CCW ? -conditions.deltaAngleCCW : conditions.deltaAngleCW);
-    final var newEndX = newStartX + Math.cos(newAngle) * newLength;
-    final var newEndY = newStartY + Math.sin(newAngle) * newLength;
-    final var newDepth = depth + 1;
-    return new TreeBranch(newStartX, newStartY, newEndX, newEndY, newLength, newAngle, newDepth);
+    this.color = color;
   }
 
   public double getStartX() { return startX; }
@@ -39,4 +28,5 @@ public class TreeBranch {
   public double getLength() { return length; }
   public double getAngle() { return angle; }
   public int getDepth() { return depth; }
+  public int getColor() { return color; }
 }

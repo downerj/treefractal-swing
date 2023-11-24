@@ -2,26 +2,33 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import io.github.downerj.Tree;
-import io.github.downerj.TreeBranch;
 
 class DrawingPanel extends JPanel {
-  private void drawTrees(Graphics g, LinkedList<TreeBranch> branches) {
-    final var tree = new Tree();
-    while (!branches.isEmpty()) {
-      final var branch = branches.remove();
-      final var color = new Color(tree.getColorByDepth(branch.getDepth()));
-      g.setColor(color);
-      g.drawLine((int)branch.getStartX(), (int)branch.getStartY(), (int)branch.getEndX(), (int)branch.getEndY());
-
-      if (branch.getDepth() < tree.maxDepth) {
-        branches.push(branch.growBranch(TreeBranch.Direction.CCW, tree));
-        branches.push(branch.growBranch(TreeBranch.Direction.CW, tree));
+  private void drawTrees(Graphics g) {
+    final var size = getSize();
+    final var trees = new ArrayList<Tree>();
+    final var trunkStartX = size.width / 2.;
+    final var trunkStartY = size.height / 2.;
+    final var numTrees = 3;
+    final var trunkLength = Math.min(size.width, size.height) / 6.;
+    final var trunkDeltaAngle = Math.PI * 2. / numTrees;
+    for (int t = 0; t < numTrees; t++) {
+      final var trunkAngle = -Math.PI / 2. + trunkDeltaAngle * t;
+      final var tree = new Tree(trunkStartX, trunkStartY, trunkLength, trunkAngle);
+      trees.add(tree);
+    }
+    for (var tree : trees) {
+      for (final var branch : tree) {
+        System.out.println(branch.getDepth());
+        final var color = new Color(branch.getColor());
+        g.setColor(color);
+        g.drawLine((int)branch.getStartX(), (int)branch.getStartY(), (int)branch.getEndX(), (int)branch.getEndY());
       }
     }
   }
@@ -31,21 +38,7 @@ class DrawingPanel extends JPanel {
     final var size = getSize();
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, size.width, size.height);
-
-    final var trunkStartX = size.width / 2.;
-    final var trunkStartY = size.height / 2.;
-    final var numTrees = 3;
-    final var initialLength = Math.min(size.width, size.height) / 6.;
-    final var trunkDeltaAngle = Math.PI * 2. / numTrees;
-    var branches = new LinkedList<TreeBranch>();
-    for (int t = 0; t < numTrees; t++) {
-      final var angle = -Math.PI / 2. + trunkDeltaAngle * t;
-      final var trunkEndX = trunkStartX + Math.cos(angle) * initialLength;
-      final var trunkEndY = trunkStartY + Math.sin(angle) * initialLength;
-      final var depth = 0;
-      branches.push(new TreeBranch(trunkStartX, trunkStartY, trunkEndX, trunkEndY, initialLength, angle, depth));
-    }
-    drawTrees(g, branches);
+    drawTrees(g);
   }
 }
 
