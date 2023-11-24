@@ -25,7 +25,6 @@ class DrawingPanel extends JPanel {
     }
     for (var tree : trees) {
       for (final var branch : tree) {
-        System.out.println(branch.getDepth());
         final var color = new Color(branch.getColor());
         g.setColor(color);
         g.drawLine((int)branch.getStartX(), (int)branch.getStartY(), (int)branch.getEndX(), (int)branch.getEndY());
